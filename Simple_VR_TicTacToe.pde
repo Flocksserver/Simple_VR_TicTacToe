@@ -10,9 +10,13 @@ PVector objFront = new PVector();
 PVector objDir = new PVector();
 
 TTTGame game;
+boolean showIntro = true;
 
 void setup(){
    fullScreen(PVR.STEREO);
+   PFont introFont = createFont("SansSerif", 12 * displayDensity);
+   textFont(introFont);
+   textAlign(CENTER, CENTER);
    game = new TTTGame();
 }
 
@@ -24,5 +28,23 @@ void draw(){
   background(0);
   translate(width/2, height/2);
   lights();
-  game.display();
+  if(showIntro){
+    displayIntro();
+  }else{
+    game.display();
+  }
+}
+
+void displayIntro(){
+  eye();
+  fill(255);
+  text("Welcome to VR Tic-Tac-Toe\nThis is my litte Demo.\nPlease be indulgent with your\nopponent. I haven't implemented\na KI for him, yet.\nPress a button to start.",0,0,300);
+}
+
+void mousePressed() {
+  if(showIntro){
+    showIntro = false;
+  }else{
+    game.mouseIsPressed = true;
+  }
 }

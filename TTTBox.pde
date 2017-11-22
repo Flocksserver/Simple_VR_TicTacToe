@@ -23,8 +23,9 @@ class TTTBox{
   
   void display(int x, int y){
       pushMatrix();
-      //bei grid 0,0 kommt position 1/1 raus
-      translate(0+(x-1)*(boxSize+offset),0+(y-1)*(boxSize+offset));
+      float rX = 0+(x-1)*(boxSize+offset);
+      float rY = 0+(y-1)*(boxSize+offset);
+      translate(rX,rY);
       getObjectMatrix(objMat);
       objMat.mult(cam, objCam);
       objMat.mult(front, objFront);
@@ -33,18 +34,47 @@ class TTTBox{
       box.setFill(mainColor);
       box.setStroke(mainColor);
       isSelected = false;
-      if(res){
+      if(res && used == ""){
         box.setStrokeWeight(5);
         box.setStroke(secondColor);
         isSelected = true;
       }
+      
+      
+      noFill();
+      strokeWeight(5);
+      stroke(secondColor);
+      if(used == "x"){
+        float lOffset = 5;
+        float l1x1 = box.getVertexX(0)+lOffset;
+        float l1y1 = box.getVertexY(0)+lOffset;
+        float l1x2 = box.getVertexX(2)-lOffset;
+        float l1y2 = box.getVertexY(2)-lOffset;
+        line(l1x1, l1y1, l1x2, l1y2);
+        float l2x1 = box.getVertexX(1)-lOffset;
+        float l2y1 = box.getVertexY(1)+lOffset;
+        float l2x2 = box.getVertexX(3)+lOffset;
+        float l2y2 = box.getVertexY(3)-lOffset;
+        line(l2x1, l2y1, l2x2, l2y2);
+      }
+      if(used == "o"){
+        ellipseMode(CENTER);
+        float oOffset = 5;
+        float oX = (box.getVertexX(1)+(box.getVertexX(0)))/2;
+        float oY = (box.getVertexY(3)+(box.getVertexY(0)))/2;
+        float oSize = boxSize-oOffset;
+        ellipse(oX,oY, oSize, oSize);
+      }
+      
       shape(box);
       popMatrix();
   
   }
   
-  
-  
+/**
+Algorithm by Amy Williams et.al. (2005) https://dl.acm.org/citation.cfm?id=1198748
+from Andres Colubri (2017) Processing for Android ISBN: 978-1-4842-2718-3
+**/  
 boolean intersectsLine(PVector orig, PVector dir, PVector minPos, PVector maxPos, float minDist, float maxDist, PVector hit){
   PVector bbox;
   PVector invDir = new PVector(1/dir.x, 1/dir.y, 1/dir.z);
