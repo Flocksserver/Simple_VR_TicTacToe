@@ -14,6 +14,7 @@ boolean showIntro = true;
 
 void setup(){
    fullScreen(PVR.STEREO);
+   //fullScreen(PVR.MONO);
    PFont introFont = createFont("SansSerif", 10 * displayDensity);
    textFont(introFont);
    textAlign(CENTER, CENTER);
