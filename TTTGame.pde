@@ -8,24 +8,30 @@ class TTTGame{
   TTTBox[][] gameGrid = new TTTBox[3][3];
   TTTAim aim;
   TTTGameState state;
+  TTTRestartButton restartButton;
   boolean mouseIsPressed = false;
+
+  int yourScore = 0;
+  int computerScore = 0;
 
   TTTGame(){
    aim = new TTTAim();
    
    state = new TTTGameState();
    
-   gameGrid[0][0] = new TTTBox();
-   gameGrid[1][0] = new TTTBox();
-   gameGrid[2][0] = new TTTBox();
+   gameGrid[0][0] = new TTTBox(state);
+   gameGrid[1][0] = new TTTBox(state);
+   gameGrid[2][0] = new TTTBox(state);
     
-   gameGrid[0][1] = new TTTBox();
-   gameGrid[1][1] = new TTTBox();
-   gameGrid[2][1] = new TTTBox();
+   gameGrid[0][1] = new TTTBox(state);
+   gameGrid[1][1] = new TTTBox(state);
+   gameGrid[2][1] = new TTTBox(state);
    
-   gameGrid[0][2] = new TTTBox();
-   gameGrid[1][2] = new TTTBox();
-   gameGrid[2][2] = new TTTBox();
+   gameGrid[0][2] = new TTTBox(state);
+   gameGrid[1][2] = new TTTBox(state);
+   gameGrid[2][2] = new TTTBox(state);
+   
+   restartButton = new TTTRestartButton();
 
   }
   
@@ -50,14 +56,12 @@ class TTTGame{
         for(int i = 0 ; i < state.winningBoxes.length; i++){
           state.winningBoxes[i].animate = true;
         }
-         //show restart button
-         //animate winning sequenz
-         //String winner = "x";
-         //if(mouseIsPressed && restartButton.isSelected){
-         //   restartGame(winner); 
-         //}
-      }
-      
+        restartButton.display();
+         if(mouseIsPressed && restartButton.isSelected){
+           mouseIsPressed = false;
+           restartGame(); 
+         }
+      }      
   }
   
   
@@ -75,8 +79,34 @@ class TTTGame{
       list.get((int)number).used = "o";
     }
   }
+ 
+  TTTBox getSelectedBox(){
+    TTTBox selected = null;
+    for (int i = 0; i < gameGrid.length; i++) {
+     for (int j = 0; j < gameGrid[i].length; j++) {
+         if(gameGrid[i][j].isSelected){
+           return gameGrid[i][j];
+         }
+      }
+    }
+    return selected;
+  }
   
-  void isGameOver(){
+  void restartGame(){
+    if(state.winner == "x"){
+      yourScore++;
+    }else{
+      computerScore++;
+    }
+    for (int i = 0; i < gameGrid.length; i++) {
+       for (int j = 0; j < gameGrid[i].length; j++) {
+         gameGrid[i][j].reset();
+        }
+      }
+    state.reset();
+  }
+  
+   void isGameOver(){
     if(!state.finish){
     if(gameGrid[0][0].used == "x" && gameGrid[1][0].used == "x" && gameGrid[2][0].used == "x"){
       state.finish = true;
@@ -192,17 +222,5 @@ class TTTGame{
       return;
     }
     }
-  }
-  
-  TTTBox getSelectedBox(){
-    TTTBox selected = null;
-    for (int i = 0; i < gameGrid.length; i++) {
-     for (int j = 0; j < gameGrid[i].length; j++) {
-         if(gameGrid[i][j].isSelected){
-           return gameGrid[i][j];
-         }
-      }
-    }
-    return selected;
   }
 }
