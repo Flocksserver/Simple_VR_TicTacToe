@@ -39,7 +39,7 @@ void draw(){
 void displayIntro(){
   eye();
   fill(255);
-  text("Welcome to VR Tic-Tac-Toe\nThis is my litte Demo.\nPlease be indulgent with\nyour opponent. I haven't\nimplemented a KI for him, yet.\nPress a button to start.",0,0,300);
+  text("Welcome to VR Tic-Tac-Toe\nThis is a simple Demo.\nPlease be indulgent with\nyour opponent. I haven't\nimplemented a KI for him, yet.\nPress a button to start.",0,0,300);
 }
 
 void mousePressed() {

@@ -24,8 +24,8 @@ class TTTBox{
     state = s;
     boxSize = width/12;
     offset = boxSize/6;
-    boxMin = new PVector(-boxSize/2, -boxSize/2, -boxSize/2);
-    boxMax = new PVector(+boxSize/2, +boxSize/2, +boxSize/2);
+    boxMin = new PVector(-boxSize/2, -boxSize/2, 0);
+    boxMax = new PVector(+boxSize/2, +boxSize/2, 0);
     rectMode(CENTER);
     box = createShape(RECT, 0, 0, boxSize, boxSize);
   }
